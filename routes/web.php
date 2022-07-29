@@ -23,4 +23,6 @@ Route::resources([
     'master/dokter' => App\Http\Controllers\Master\DokterController::class,
     'master/obat' => App\Http\Controllers\Master\ObatController::class,
     'master/pasien' => App\Http\Controllers\Master\PasienController::class,
+    'transaksi/daftar_pasien_baru' => App\Http\Controllers\Transaksi\DaftarPasienBaruController::class,
+    'transaksi/kunjungan' => App\Http\Controllers\Transaksi\KunjunganController::class,
 ]);

@@ -257,6 +257,17 @@ return [
             'url'  => 'master/pasien',
             'icon' => 'fas fa-head-side-mask',
         ],
+        ['header' => 'TRANSAKSI'],
+        [
+            'text' => ' Kunjungan',
+            'url'  => 'transaksi/kunjungan',
+            'icon' => 'fas fa-walking',
+        ],
+        [
+            'text' => ' Daftar Pasien Baru',
+            'url'  => 'transaksi/daftar_pasien_baru',
+            'icon' => 'fas fa-clipboard-list',
+        ],
     ],
 
     /*
