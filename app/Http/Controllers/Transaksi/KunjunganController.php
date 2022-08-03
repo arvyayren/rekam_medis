@@ -5,13 +5,15 @@ namespace App\Http\Controllers\Transaksi;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\MasterPasien;
+
 use App\Models\TransaksiKunjungan;
 
 class KunjunganController extends Controller
 {
     public function index()
     {
-        $list = TransaksiKunjungan::select('id','nama','tempat_lahir','tanggal_lahir','jenis_kelamin')->get();
+        $list = TransaksiKunjungan::select('id','nama_pasien','tanggal_kunjungan','no_antrian','status')->get();
 
         $data = array();
 
@@ -24,12 +26,37 @@ class KunjunganController extends Controller
                             <i class="fa fa-lg fa-fw fa-trash"></i>
                         </button>';
 
+            if($v->status == 1){
+                $status = 'Dalam Antrian';
+            }
+            
+            if($v->status == 2){
+                $status = 'Ke Ruangan Dokter';
+            }
+            
+            if($v->status == 3){
+                $status = 'Pengambilan Obat';
+            }
+            
+            if($v->status == 4){
+                $status = 'Selesai';
+            }
+
             $data[] = array(
-                $v->id,$v->nama,$v->tempat_lahir,$v->tanggal_lahir,$v->jenis_kelamin,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
+                $v->id,$v->nama_pasien,$v->tanggal_kunjungan,$v->no_antrian,$status,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
             );
         }
 
-        return view('pages.transaksi.kunjungan.index', compact('data'));
+        $pasien = MasterPasien::get();
+
+        $status = array(
+            1 => 'Dalam Antrian',
+            2 => 'Ke Ruangan Dokter',
+            3 => 'Pengambilan Obat',
+            4 => 'Selesai',
+        );
+
+        return view('pages.transaksi.kunjungan.index', compact('data','pasien','status'));
     }
 
     /**
@@ -51,6 +78,19 @@ class KunjunganController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        $input['nama_pasien'] = MasterPasien::where('id',$input['id_pasien'])->value('nama');
+
+        $last = TransaksiKunjungan::where('tanggal_kunjungan',$input['tanggal_kunjungan'])
+        ->orderBy('no_antrian', 'desc')->first();
+
+        if(isset($last)){
+            $no = $last->no_antrian+1;
+            $no = substr($no, -4);
+
+            $input['no_antrian'] = date('Ymd',strtotime($input['tanggal_kunjungan'])).$no;
+        }else{
+            $input['no_antrian'] = date('Ymd',strtotime($input['tanggal_kunjungan'])).'0001';
+        }
 
         $create = TransaksiKunjungan::create($input);
 
@@ -83,7 +123,16 @@ class KunjunganController extends Controller
     {
         $data = TransaksiKunjungan::find($id);
 
-        return view('pages.transaksi.kunjungan.edit', compact('data'));
+        $pasien = MasterPasien::get();
+
+        $status = array(
+            1 => 'Dalam Antrian',
+            2 => 'Ke Ruangan Dokter',
+            3 => 'Pengambilan Obat',
+            4 => 'Selesai',
+        );
+
+        return view('pages.transaksi.kunjungan.edit', compact('data','pasien','status'));
     }
 
     /**

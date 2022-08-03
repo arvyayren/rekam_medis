@@ -16,23 +16,27 @@
             <form action="/transaksi/kunjungan" method="post">
             @csrf
             <div class="row">
-                <x-adminlte-input name="nama" label="Nama" placeholder="Nama..."
-                fgroup-class="col-md-6" disable-feedback required/>
-                <x-adminlte-input name="spesialis" label="Spesialis" placeholder="Spesialis..."
-                fgroup-class="col-md-6" disable-feedback required/>
+                <x-adminlte-select name="id_pasien" label="Pasien" fgroup-class="col-md-6" required>
+                    <option disabled selected>Pilih Pasien..</option>
+                    @foreach($pasien as $p)
+                    <option value="{{$p->id}}">{{$p->nama}}</option>
+                    @endforeach
+                </x-adminlte-select>
             </div>
 
             <div class="row">
-                <x-adminlte-select name="jenis_kelamin" label="Jenis Kelamin" fgroup-class="col-md-6" required>
-                    <x-adminlte-options :options="['Laki' => 'Laki', 'Perempuan' => 'Perempuan']"
-                        placeholder="Pilih Jenis Kelamin..."/>
+                <x-adminlte-select name="status" label="Status" fgroup-class="col-md-6" required>
+                    <option disabled selected>Pilih Status..</option>
+                    @foreach($status as $k => $v)
+                    <option value="{{$k}}">{{$v}}</option>
+                    @endforeach
                 </x-adminlte-select>
                 
-                <x-adminlte-input-date name="tanggal_lahir" :config="$config" placeholder="Pilih Tanggal..."
-                    label="Tanggal Lahir" label-class="text-primary" fgroup-class="col-md-6" required>
+                <x-adminlte-input-date name="tanggal_kunjungan" :config="['format' => 'Y-m-d']" placeholder="Pilih Tanggal..."
+                    label="Tanggal Kunjungan" label-class="text-primary" fgroup-class="col-md-6" required>
                     <x-slot name="prependSlot">
                         <x-adminlte-button theme="outline-primary" icon="fas fa-calendar-alt"
-                            title="Tanggal Lahir"/>
+                            title="Tanggal Kunjungan"/>
                     </x-slot>
                 </x-adminlte-input-date>
             </div>
@@ -50,16 +54,18 @@
 
         @php
         $heads = [
-            'ID',
-            'Nama',
-            'Spesialis',
+            'Nomor',
+            'Nama Pasien',
+            'Tanggal Kunjungan',
+            'Nomor Antrian',
+            'Status',
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 
         $config = [
             'data' => $data,
             'order' => [[1, 'asc']],
-            'columns' => [null, null, null, ['orderable' => false]],
+            'columns' => [null, null, null, null, null,['orderable' => false]],
         ];
         @endphp
 
@@ -84,9 +90,9 @@
 @stop
 
 @section('css')
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @stop
 
 @section('js')
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 @stop
