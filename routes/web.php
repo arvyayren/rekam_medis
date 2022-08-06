@@ -25,4 +25,8 @@ Route::resources([
     'master/pasien' => App\Http\Controllers\Master\PasienController::class,
     'transaksi/daftar_pasien_baru' => App\Http\Controllers\Transaksi\DaftarPasienBaruController::class,
     'transaksi/kunjungan' => App\Http\Controllers\Transaksi\KunjunganController::class,
+    'transaksi/rekam_medis' => App\Http\Controllers\Transaksi\RekamMedisController::class,
 ]);
+
+Route::post('transaksi/rekam_medis_detail' , [App\Http\Controllers\Transaksi\RekamMedisController::class, 'storeRekamMedis']);
+Route::delete('transaksi/rekam_medis_detail/{id}' , [App\Http\Controllers\Transaksi\RekamMedisController::class, 'deleteRekamMedis']);

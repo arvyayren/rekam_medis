@@ -11,5 +11,5 @@ class MasterObat extends Model
 
     protected $table = 'master_obat';
 
-    protected $fillable = ['kode','nama','created_at','updated_at'];
+    protected $fillable = ['kode','nama','created_at','updated_at', 'tgl_expired', 'tgl_registrasi', 'jenis'];
 }

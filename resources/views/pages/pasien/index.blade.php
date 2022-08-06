@@ -75,6 +75,7 @@
         @php
         $heads = [
             'ID',
+            'No Registrasi',
             'Nama',
             'Tempat Lahir',
             'Tanggal Lahir',

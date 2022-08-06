@@ -16,7 +16,20 @@
             <form action="/master/dokter" method="post">
             @csrf
             <div class="row">
-                <x-adminlte-input name="nama" label="Nama" placeholder="Nama..."
+                <x-adminlte-input name="nama" label="Nama Lengkap" placeholder="Nama..."
+                fgroup-class="col-md-6" disable-feedback required/>
+                <x-adminlte-input name="no_ktp" label="No KTP" placeholder="No KTP..." max="16"
+                fgroup-class="col-md-6" disable-feedback required/>
+                <x-adminlte-input name="tempat_tgl_lahir" label="Tempat Tanggal Lahir" placeholder="Tempat Tgl Lahir..."
+                fgroup-class="col-md-6" disable-feedback required/>
+                <x-adminlte-select label="Jenis Kelamin" fgroup-class="col-md-6" name="jenis_kelamin" required>
+                    <option value="-">-</option>
+                    <option value="Laki-laki">Laki-laki</option>
+                    <option value="Perempuan">Perempuan</option>
+                </x-adminlte-select>
+                <x-adminlte-input name="umur" label="Umur" placeholder="Umur..."
+                fgroup-class="col-md-6" disable-feedback required/>
+                <x-adminlte-input name="alamat" label="Alamat" placeholder="Alamat..."
                 fgroup-class="col-md-6" disable-feedback required/>
                 <x-adminlte-input name="spesialis" label="Spesialis" placeholder="Spesialis..."
                 fgroup-class="col-md-6" disable-feedback required/>

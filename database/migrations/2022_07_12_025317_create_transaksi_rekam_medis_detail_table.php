@@ -16,7 +16,9 @@ class CreateTransaksiRekamMedisDetailTable extends Migration
         Schema::create('transaksi_rekam_medis_detail', function (Blueprint $table) {
             $table->id();
             $table->integer('id_kunjungan')->nullable();
-            $table->integer('id_krekam_medis_header')->nullable();
+            $table->integer('id_dokter')->nullable();
+            $table->date('tanggal_pemeriksaan')->nullable();
+            $table->integer('id_rekam_medis_header')->nullable();
             $table->text('anamnesa_pemeriksaan')->nullable();
             $table->text('rujuk_pengobatan')->nullable();
             $table->timestamps();

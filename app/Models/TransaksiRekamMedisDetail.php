@@ -11,6 +11,6 @@ class TransaksiRekamMedisDetail extends Model
 
     protected $table = 'transaksi_rekam_medis_detail';
 
-    protected $fillable = ['id_kunjungan','id_krekam_medis_header','anamnesa_pemeriksaan','rujuk_pengobatan',
+    protected $fillable = ['id_kunjungan', 'id_dokter', 'id_rekam_medis_header', 'tanggal_pemeriksaan', 'anamnesa_pemeriksaan','rujuk_pengobatan',
     'created_at','updated_at'];
 }

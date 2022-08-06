@@ -102,12 +102,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
+    'classes_auth_card' => 'card-outline card-success',
     'classes_auth_header' => '',
     'classes_auth_body' => '',
     'classes_auth_footer' => '',
     'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_btn' => 'btn-flat btn-success',
 
     /*
     |--------------------------------------------------------------------------
@@ -266,6 +266,11 @@ return [
         [
             'text' => ' Daftar Pasien Baru',
             'url'  => 'transaksi/daftar_pasien_baru',
+            'icon' => 'fas fa-clipboard-list',
+        ],
+        [
+            'text' => ' Rekam Medis',
+            'url'  => 'transaksi/rekam_medis',
             'icon' => 'fas fa-clipboard-list',
         ],
     ],

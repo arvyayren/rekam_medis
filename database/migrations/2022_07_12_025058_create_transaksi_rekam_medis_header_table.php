@@ -16,15 +16,6 @@ class CreateTransaksiRekamMedisHeaderTable extends Migration
         Schema::create('transaksi_rekam_medis_header', function (Blueprint $table) {
             $table->id();
             $table->integer('id_pasien')->nullable();
-            $table->string('nama_pasien')->nullable();
-            $table->string('hubungan_keluarga')->nullable();
-            $table->integer('umur')->nullable();
-            $table->string('jenis_kelamin')->nullable();
-            $table->string('nama_peserta')->nullable();
-            $table->string('nama_perusahaan')->nullable();
-            $table->text('alamat_rumah')->nullable();
-            $table->date('tanggal_pemeriksaan')->nullable();
-            $table->integer('no')->nullable();
             $table->timestamps();
         });
     }
