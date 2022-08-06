@@ -12,5 +12,5 @@ class MasterPasien extends Model
     protected $table = 'master_pasien';
 
     protected $fillable = ['nama','tempat_lahir','tanggal_lahir','no_ktp','jenis_kelamin','umur',
-    'alamat','jenis_pasien','tanggal_pendaftaran','created_at','updated_at', 'no_registrasi_pasien'];
+    'alamat','jenis_pasien','tanggal_pendaftaran','created_at','updated_at', 'no_registrasi_pasien', 'no_hp'];
 }

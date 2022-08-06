@@ -24,6 +24,7 @@ class CreateMasterPasienTable extends Migration
             $table->text('alamat')->nullable();
             $table->string('jenis_pasien')->nullable();
             $table->date('tanggal_pendaftaran')->nullable();
+            $table->string('no_hp')->nullable();
             $table->timestamps();
         });
     }

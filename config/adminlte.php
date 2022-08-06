@@ -266,12 +266,38 @@ return [
         [
             'text' => ' Daftar Pasien Baru',
             'url'  => 'transaksi/daftar_pasien_baru',
-            'icon' => 'fas fa-clipboard-list',
+            'icon' => 'fas fa-address-book',
         ],
         [
             'text' => ' Rekam Medis',
             'url'  => 'transaksi/rekam_medis',
             'icon' => 'fas fa-clipboard-list',
+        ],
+        [
+            'text' => ' Resep Obat',
+            'url'  => 'transaksi/resep_obat',
+            'icon' => 'fas fa-receipt',
+        ],
+        [
+            'text' => ' Pembayaran',
+            'url'  => 'transaksi/pembayaran',
+            'icon' => 'fas fa-file-invoice-dollar',
+        ],
+        ['header' => 'LAPORAN'],
+        [
+            'text' => ' Laporan Obat',
+            'url'  => 'laporan/obat',
+            'icon' => 'fas fa-file-pdf',
+        ],
+        [
+            'text' => ' Laporan Kunjungan Pasien',
+            'url'  => 'laporan/kunjungan_pasien',
+            'icon' => 'fas fa-file-pdf',
+        ],
+        [
+            'text' => ' Laporan Pembayaran',
+            'url'  => 'laporan/pembayaran',
+            'icon' => 'fas fa-file-pdf',
         ],
     ],
 

@@ -89,6 +89,10 @@ class RekamMedisController extends Controller
 
         $create = TransaksiRekamMedisDetail::create($input);
 
+        $update = TransaksiKunjungan::where('id',$request->id_kunjungan)->update([
+            'status' => 2,
+        ]);
+
         if($create){
             return redirect()->back()->with(['success' => 'Data Berhasil Dibuat']);
         }else{

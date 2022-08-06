@@ -32,13 +32,7 @@
                     @endforeach
                 </x-adminlte-select>
                 
-                <x-adminlte-input-date name="tanggal_kunjungan" :config="['format' => 'Y-m-d']" placeholder="Pilih Tanggal..."
-                    label="Tanggal Kunjungan" label-class="text-primary" fgroup-class="col-md-6" required>
-                    <x-slot name="prependSlot">
-                        <x-adminlte-button theme="outline-primary" icon="fas fa-calendar-alt"
-                            title="Tanggal Kunjungan"/>
-                    </x-slot>
-                </x-adminlte-input-date>
+                <input type="hidden" name="tanggal_kunjungan" value="{{date('Y-m-d')}}"/>
             </div>
             
             <x-adminlte-button icon="fas fa-check-circle" type="submit" label="Submit" class="bg-success btn-block"/>

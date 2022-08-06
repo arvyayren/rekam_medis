@@ -59,6 +59,9 @@
                 fgroup-class="col-md-6" disable-feedback required/>
             </div>
 
+            <x-adminlte-input name="no_hp" label="No HP" placeholder="No HP..."
+                fgroup-class="col-md-6" disable-feedback required/>
+
             <input type="hidden" name="tanggal_pendaftaran" value="{{date('Y-m-d')}}"/>
             
             <x-adminlte-button icon="fas fa-check-circle" type="submit" label="Submit" class="bg-success btn-block"/>
@@ -80,6 +83,7 @@
             'Tempat Lahir',
             'Tanggal Lahir',
             'Jenis Kelamin',
+            'No HP',
             ['label' => 'Actions', 'no-export' => true, 'width' => 5],
         ];
 

@@ -16,7 +16,7 @@ class PasienController extends Controller
      */
     public function index()
     {
-        $list = MasterPasien::select('id','nama','tempat_lahir','tanggal_lahir','jenis_kelamin', 'no_registrasi_pasien')->get();
+        $list = MasterPasien::select('id','nama','tempat_lahir','tanggal_lahir','jenis_kelamin', 'no_registrasi_pasien', 'no_hp')->get();
 
         $data = array();
 
@@ -30,7 +30,7 @@ class PasienController extends Controller
                         </button>';
 
             $data[] = array(
-                $v->id, $v->no_registrasi_pasien,$v->nama,$v->tempat_lahir,$v->tanggal_lahir,$v->jenis_kelamin,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
+                $v->id, $v->no_registrasi_pasien,$v->nama,$v->tempat_lahir,$v->tanggal_lahir,$v->jenis_kelamin,$v->no_hp,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
             );
         }
 
@@ -86,6 +86,7 @@ class PasienController extends Controller
             'alamat' => $request->alamat,
             'jenis_pasien' => $request->jenis_pasien,
             'tanggal_pendaftaran' => $request->tanggal_pendaftaran,
+            'no_hp' => $request->no_hp
         ]);
 
 

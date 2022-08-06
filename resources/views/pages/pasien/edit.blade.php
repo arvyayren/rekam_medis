@@ -58,6 +58,9 @@
             <x-adminlte-input name="jenis_pasien" value="{{$data->jenis_pasien}}" label="Jenis Pasien" placeholder="Jenis Pasien..."
             fgroup-class="col-md-6" disable-feedback required/>
         </div>
+
+        <x-adminlte-input name="no_hp" label="No HP" placeholder="No HP..." value="{{ $data->no_hp }}"
+                fgroup-class="col-md-6" disable-feedback required/>
         
         <x-adminlte-button icon="fas fa-check-circle" type="submit" label="Submit" class="bg-success btn-block"/>
         </form>

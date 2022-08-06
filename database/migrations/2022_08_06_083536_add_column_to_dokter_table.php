@@ -19,6 +19,7 @@ class AddColumnToDokterTable extends Migration
             $table->string('jenis_kelamin', 10);
             $table->string('umur', 3);
             $table->text('alamat');
+            $table->string('no_hp', 13);
         });
     }
 
