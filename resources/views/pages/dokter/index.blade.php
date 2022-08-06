@@ -33,6 +33,8 @@
                 fgroup-class="col-md-6" disable-feedback required/>
                 <x-adminlte-input name="spesialis" label="Spesialis" placeholder="Spesialis..."
                 fgroup-class="col-md-6" disable-feedback required/>
+                <x-adminlte-input name="no_hp" label="No HP" placeholder="No HP..."
+                fgroup-class="col-md-6" disable-feedback required/>
             </div>
             
             <x-adminlte-button icon="fas fa-check-circle" type="submit" label="Submit" class="bg-success btn-block"/>

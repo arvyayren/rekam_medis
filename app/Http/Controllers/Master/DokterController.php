@@ -16,7 +16,7 @@ class DokterController extends Controller
      */
     public function index()
     {
-        $list = MasterDokter::select('id','nama','spesialis')->get();
+        $list = MasterDokter::get();
 
         $data = array();
 
