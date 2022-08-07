@@ -119,7 +119,11 @@ class PembayaranController extends Controller
             'status' => 'Lunas'
         ]);
 
-        $update = TransaksiKunjungan::where('id',$request->id_kunjungan)->update([
+        $pembayaran = Pembayaran::find($id);
+
+        $kunjungan = TransaksiResepObatHeader::find($pembayaran->id_resep_header);
+
+        $update_kunjungan = TransaksiKunjungan::where('id',$kunjungan->id_kunjungan)->update([
             'status' => 4,
         ]);
 

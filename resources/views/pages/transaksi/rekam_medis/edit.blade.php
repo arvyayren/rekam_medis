@@ -78,9 +78,10 @@
                     <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
                 </x-slot>
             </x-adminlte-modal>
-
+            @if(Auth::user()->email == 'dokter@dokter.com')
             <x-adminlte-button icon="fas fa-plus-square" label="Create" data-toggle="modal" data-target="#create" class="bg-success"/>    
             <br/><br/>
+            @endif
 
             @php
             $heads = [

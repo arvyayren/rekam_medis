@@ -32,6 +32,7 @@ Route::resources([
 
 Route::post('transaksi/rekam_medis_detail' , [App\Http\Controllers\Transaksi\RekamMedisController::class, 'storeRekamMedis']);
 Route::delete('transaksi/rekam_medis_detail/{id}' , [App\Http\Controllers\Transaksi\RekamMedisController::class, 'deleteRekamMedis']);
+Route::get('transaksi/rekam_medis/{id}/view' , [App\Http\Controllers\Transaksi\RekamMedisController::class, 'viewRekamMedis']);
 
 Route::post('transaksi/resep_obat_detail' , [App\Http\Controllers\Transaksi\ResepObatController::class, 'storeResepObat']);
 Route::delete('transaksi/resep_obat_detail/{id}' , [App\Http\Controllers\Transaksi\ResepObatController::class, 'deleteResepObat']);

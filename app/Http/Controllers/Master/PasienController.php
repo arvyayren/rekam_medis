@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\MasterPasien;
 
+use Auth;
+
 class PasienController extends Controller
 {
     /**
@@ -16,8 +18,13 @@ class PasienController extends Controller
      */
     public function index()
     {
-        $list = MasterPasien::select('id','nama','tempat_lahir','tanggal_lahir','jenis_kelamin', 'no_registrasi_pasien', 'no_hp')->get();
-
+        if(Auth::user()->email == 'admin@admin.com'){
+            $list = MasterPasien::select('id','nama','tempat_lahir','tanggal_lahir','jenis_kelamin', 'no_registrasi_pasien', 'no_hp')->get();
+        }else{
+            $list = MasterPasien::select('id','nama','tempat_lahir','tanggal_lahir','jenis_kelamin', 'no_registrasi_pasien', 'no_hp')
+            ->where('nama', Auth::user()->name)
+            ->get();
+        }
         $data = array();
 
         foreach($list as $k => $v){
@@ -25,10 +32,13 @@ class PasienController extends Controller
             $btnEdit = '<a href="/master/pasien/'.$v->id.'/edit" class="btn btn-xs btn-default text-primary mx-1 shadow">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>';
+            if(Auth::user()->email == 'admin@admin.com'){
             $btnDelete = '<button type="submit" form="delete'.$v->id.'" class="btn btn-xs btn-default text-danger mx-1 shadow">
                             <i class="fa fa-lg fa-fw fa-trash"></i>
                         </button>';
-
+            }else{
+                $btnDelete = '';
+            }
             $data[] = array(
                 $v->id, $v->no_registrasi_pasien,$v->nama,$v->tempat_lahir,$v->tanggal_lahir,$v->jenis_kelamin,$v->no_hp,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
             );
