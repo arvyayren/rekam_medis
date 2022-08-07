@@ -21,16 +21,20 @@
                 <option value="{{$p->id}}" <?php if($p->id == $data->id_pasien){echo 'selected';} ?>>{{$p->nama}}</option>
                 @endforeach
             </x-adminlte-select>
+
+            @if($data->status == 3)
+            <x-adminlte-input name="tarif" label="Tarif" placeholder="Tarif..." value="{{$data->tarif}}"
+                fgroup-class="col-md-6" disable-feedback required/>
+            @endif
         </div>
 
         <div class="row">
-            <x-adminlte-select name="status" label="Status" fgroup-class="col-md-6" required>
+            <x-adminlte-select name="status" label="Status" fgroup-class="col-md-6" disabled required>
                 <option disabled selected>Pilih Status..</option>
                 @foreach($status as $k => $v)
                 <option value="{{$k}}" <?php if($k == $data->status){echo 'selected';} ?>>{{$v}}</option>
                 @endforeach
             </x-adminlte-select>
-            
             <input type="hidden" name="tanggal_kunjungan" value="{{date('Y-m-d')}}"/>
         </div>
         

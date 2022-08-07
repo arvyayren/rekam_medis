@@ -38,7 +38,7 @@
 
         @php
         $heads = [
-            'No',
+            'ID',
             'Nomor Registrasi',
             'Nama Pasien',
             'Jenis Kelamin',

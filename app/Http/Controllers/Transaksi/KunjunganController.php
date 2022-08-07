@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\MasterPasien;
+use App\Models\TransaksiResepObatHeader;
 
 use App\Models\TransaksiKunjungan;
 
@@ -147,6 +148,10 @@ class KunjunganController extends Controller
         $input = $request->except(['_token', '_method']);
 
         $update = TransaksiKunjungan::where('id',$id)->update($input);
+
+        $update_resep = TransaksiResepObatHeader::where('id_kunjungan',$id)->update([
+            'tarif_pemeriksaan' => $request->tarif
+        ]);
 
         if($update){
             return redirect()->back()->with(['success' => 'Data Berhasil Diubah']);

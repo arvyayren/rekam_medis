@@ -11,21 +11,22 @@ use App\Models\MasterObat;
 use App\Models\TransaksiKunjungan;
 use App\Models\TransaksiRekamMedisHeader;
 use App\Models\TransaksiRekamMedisDetail;
-use App\Models\TransaksiResepObat;
+use App\Models\TransaksiResepObatHeader;
+use App\Models\TransaksiResepObatDetail;
 
 class ResepObatController extends Controller
 {
     public function index()
     {
-        $list = TransaksiRekamMedisHeader::select( 'transaksi_rekam_medis_header.id','master_pasien.no_registrasi_pasien','master_pasien.nama', 'master_pasien.jenis_kelamin', 'master_pasien.alamat')
-        ->join('master_pasien', 'master_pasien.id', 'transaksi_rekam_medis_header.id_pasien')
+        $list = TransaksiResepObatHeader::select( 'transaksi_resep_obat_header.id','transaksi_kunjungan.no_antrian','transaksi_kunjungan.nama_pasien', 'transaksi_resep_obat_header.biaya_obat')
+        ->join('transaksi_kunjungan', 'transaksi_kunjungan.id', 'transaksi_resep_obat_header.id_kunjungan')
         ->get();
 
         $data = array();
 
         foreach($list as $k => $v){
 
-            $btnEdit = '<a href="/transaksi/rekam_medis/'.$v->id.'/edit" class="btn btn-xs btn-default text-primary mx-1 shadow">
+            $btnEdit = '<a href="/transaksi/resep_obat/'.$v->id.'/edit" class="btn btn-xs btn-default text-primary mx-1 shadow">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>';
             $btnDelete = '<button type="submit" form="delete'.$v->id.'" class="btn btn-xs btn-default text-danger mx-1 shadow">
@@ -33,63 +34,101 @@ class ResepObatController extends Controller
                         </button>';
 
             $data[] = array(
-                $v->id,$v->no_registrasi_pasien,$v->nama,$v->jenis_kelamin,$v->alamat,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
+                $v->id,$v->no_antrian,$v->nama_pasien,$v->biaya_obat,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
             );
         }
 
-        $pasien = MasterPasien::get();
+        $kunjungan = TransaksiKunjungan::get();
 
        
-        return view('pages.transaksi.rekam_medis.index', compact('data','pasien'));
+        return view('pages.transaksi.resep_obat.index', compact('data','kunjungan'));
     }
 
     public function store(Request $request)
     {
         $input = $request->all();
+
+        $kunjungan = TransaksiKunjungan::find($request->id_kunjungan);
       
-        $create = TransaksiRekamMedisHeader::create($input);
+        $create = TransaksiResepObatHeader::create([
+            'id_kunjungan' => $request->id_kunjungan,
+            'nama_pasien' => $kunjungan->nama_pasien,
+            'tarif_pemeriksaan' => $kunjungan->tarif,
+            'biaya_obat' => 0,
+            'total_pembayaran' => 0,
+        ]);
+
+        $update = TransaksiKunjungan::where('id',$request->id_kunjungan)->update([
+            'status' => 3,
+        ]);
 
         if($create){
-            return redirect('/transaksi/rekam_medis')->with(['success' => 'Data Berhasil Dibuat']);
+            return redirect('/transaksi/resep_obat')->with(['success' => 'Data Berhasil Dibuat']);
         }else{
-            return redirect('/transaksi/rekam_medis')->with(['danger' => 'Data Gagal Dibuat']);
+            return redirect('/transaksi/resep_obat')->with(['danger' => 'Data Gagal Dibuat']);
         }
 
     }
 
     public function edit($id)
     {
-        $data = TransaksiRekamMedisHeader::select( 'transaksi_rekam_medis_header.id','master_pasien.no_registrasi_pasien','master_pasien.nama', 'master_pasien.jenis_kelamin', 'master_pasien.alamat')
-        ->join('master_pasien', 'master_pasien.id', 'transaksi_rekam_medis_header.id_pasien')
+        $data = TransaksiResepObatHeader::select( 'transaksi_resep_obat_header.id','transaksi_kunjungan.no_antrian','transaksi_kunjungan.nama_pasien', 'transaksi_resep_obat_header.biaya_obat', 'transaksi_resep_obat_header.created_at')
+        ->join('transaksi_kunjungan', 'transaksi_kunjungan.id', 'transaksi_resep_obat_header.id_kunjungan')
+        ->where('transaksi_resep_obat_header.id', $id)
         ->first();
 
-        $dokter = MasterDokter::get();
-        $kunjungan = TransaksiKunjungan::whereDate('created_at', Carbon::today())->get();
+        $obat = MasterObat::get();
 
-        $list = TransaksiRekamMedisDetail::select('transaksi_rekam_medis_detail.id', 'transaksi_kunjungan.no_antrian', 'transaksi_rekam_medis_detail.tanggal_pemeriksaan', 'transaksi_rekam_medis_detail.anamnesa_pemeriksaan', 'transaksi_rekam_medis_detail.rujuk_pengobatan')
-        ->join('transaksi_kunjungan', 'transaksi_kunjungan.id', 'transaksi_rekam_medis_detail.id_kunjungan')
-        ->join('master_dokter', 'master_dokter.id', 'transaksi_rekam_medis_detail.id_dokter')
-        ->where('transaksi_rekam_medis_detail.id_rekam_medis_header', $id)->get();
+        $list = TransaksiResepObatDetail::select('transaksi_resep_obat_detail.id', 'master_obat.nama', 'transaksi_resep_obat_detail.jumlah', 'transaksi_resep_obat_detail.keterangan')
+        ->join('master_obat', 'master_obat.id', 'transaksi_resep_obat_detail.id_obat')
+        ->where('transaksi_resep_obat_detail.id_resep_header', $id)
+        ->get();
 
-        $rekammedis = array();
+        $resepobat = array();
 
         foreach($list as $k => $v){
             $btnDelete = '<button type="submit" form="delete'.$v->id.'" class="btn btn-xs btn-default text-danger mx-1 shadow">
                             <i class="fa fa-lg fa-fw fa-trash"></i>
                         </button>';
 
-            $rekammedis[] = array(
-                $v->id, $v->no_antrian,$v->tanggal_pemeriksaan,$v->anamnesa_pemeriksaan,$v->rujuk_pengobatan,'<nobr>'.$btnDelete.'</nobr>'
+            $resepobat[] = array(
+                $v->id, $v->kode, $v->nama,$v->jumlah,$v->keterangan,'<nobr>'.$btnDelete.'</nobr>'
             );
         }
 
-        return view('pages.transaksi.rekam_medis.edit', compact('data','dokter', 'kunjungan', 'rekammedis'));
+        return view('pages.transaksi.resep_obat.edit', compact('data','obat', 'resepobat'));
     }
 
-    public function storeRekamMedis(Request $request){
+    public function update(Request $request, $id)
+    {
+        $input = $request->except(['_token', '_method']);
+
+        $update = TransaksiResepObatHeader::where('id',$id)->update([
+            'biaya_obat' => $request->biaya_obat
+        ]);
+
+        if($update){
+            return redirect()->back()->with(['success' => 'Data Berhasil Diubah']);
+        }else{
+            return redirect()->back()->with(['danger' => 'Data Gagal Diubah']);
+        }
+    }
+
+    public function destroy($id)
+    {
+        $delete = TransaksiResepObatHeader::where('id',$id)->delete($id);
+
+        if($delete){
+            return redirect('/transaksi/resep_obat')->with(['success' => 'Data Berhasil Dihapus']);
+        }else{
+            return redirect('/transaksi/resep_obat')->with(['danger' => 'Data Gagal Dihapus']);
+        }
+    }
+
+    public function storeResepObat(Request $request){
         $input = $request->all();
 
-        $create = TransaksiRekamMedisDetail::create($input);
+        $create = TransaksiResepObatDetail::create($input);
 
         if($create){
             return redirect()->back()->with(['success' => 'Data Berhasil Dibuat']);
@@ -98,8 +137,8 @@ class ResepObatController extends Controller
         }
     }
 
-    public function deleteRekamMedis($id){
-        $delete = TransaksiRekamMedisDetail::where('id',$id)->delete($id);
+    public function deleteResepObat($id){
+        $delete = TransaksiResepObatDetail::where('id',$id)->delete($id);
 
         if($delete){
             return redirect()->back()->with(['success' => 'Data Berhasil Dihapus']);
