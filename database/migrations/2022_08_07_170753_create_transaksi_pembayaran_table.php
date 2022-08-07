@@ -15,6 +15,9 @@ class CreateTransaksiPembayaranTable extends Migration
     {
         Schema::create('transaksi_pembayaran', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_resep_header')->nullable();
+            $table->decimal('total_pembayaran', 16,2)->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

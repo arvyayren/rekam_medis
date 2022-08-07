@@ -14,6 +14,8 @@ use App\Models\TransaksiRekamMedisDetail;
 use App\Models\TransaksiResepObatHeader;
 use App\Models\TransaksiResepObatDetail;
 
+use Carbon\Carbon;
+
 class ResepObatController extends Controller
 {
     public function index()
@@ -38,7 +40,7 @@ class ResepObatController extends Controller
             );
         }
 
-        $kunjungan = TransaksiKunjungan::get();
+        $kunjungan = TransaksiKunjungan::whereDate('created_at', Carbon::today())->get();
 
        
         return view('pages.transaksi.resep_obat.index', compact('data','kunjungan'));

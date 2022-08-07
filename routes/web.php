@@ -27,6 +27,7 @@ Route::resources([
     'transaksi/kunjungan' => App\Http\Controllers\Transaksi\KunjunganController::class,
     'transaksi/rekam_medis' => App\Http\Controllers\Transaksi\RekamMedisController::class,
     'transaksi/resep_obat' => App\Http\Controllers\Transaksi\ResepObatController::class,
+    'transaksi/pembayaran' => App\Http\Controllers\Transaksi\PembayaranController::class,
 ]);
 
 Route::post('transaksi/rekam_medis_detail' , [App\Http\Controllers\Transaksi\RekamMedisController::class, 'storeRekamMedis']);
@@ -34,3 +35,5 @@ Route::delete('transaksi/rekam_medis_detail/{id}' , [App\Http\Controllers\Transa
 
 Route::post('transaksi/resep_obat_detail' , [App\Http\Controllers\Transaksi\ResepObatController::class, 'storeResepObat']);
 Route::delete('transaksi/resep_obat_detail/{id}' , [App\Http\Controllers\Transaksi\ResepObatController::class, 'deleteResepObat']);
+
+Route::put('status/pembayaran/{id}', [App\Http\Controllers\Transaksi\PembayaranController::class, 'update']);
