@@ -16,7 +16,7 @@ class AddColumnToObatTable extends Migration
         Schema::table('master_obat', function (Blueprint $table) {
             $table->date('tgl_registrasi');
             $table->date('tgl_expired');
-            $table->string('jenis', 16);
+            $table->string('jenis');
         });
     }
 

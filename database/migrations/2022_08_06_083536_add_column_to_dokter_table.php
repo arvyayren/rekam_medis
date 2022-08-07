@@ -14,12 +14,12 @@ class AddColumnToDokterTable extends Migration
     public function up()
     {
         Schema::table('master_dokter', function (Blueprint $table) {
-            $table->string('no_ktp', 16);
-            $table->string('tempat_tgl_lahir', 35);
-            $table->string('jenis_kelamin', 10);
-            $table->string('umur', 3);
+            $table->string('no_ktp');
+            $table->string('tempat_tgl_lahir');
+            $table->string('jenis_kelamin');
+            $table->string('umur');
             $table->text('alamat');
-            $table->string('no_hp', 13);
+            $table->string('no_hp');
         });
     }
 
