@@ -32,6 +32,11 @@ class PasienController extends Controller
             $btnEdit = '<a href="/master/pasien/'.$v->id.'/edit" class="btn btn-xs btn-default text-primary mx-1 shadow">
                             <i class="fa fa-lg fa-fw fa-pen"></i>
                         </a>';
+
+            $btnPrint = '<a href="/master/pasien/'.$v->id.'/print" class="btn btn-xs btn-default text-primary mx-1 shadow">
+                <i class="fa fa-lg fa-fw fa-print"></i>
+            </a>';
+
             if(Auth::user()->email == 'admin@admin.com'){
             $btnDelete = '<button type="submit" form="delete'.$v->id.'" class="btn btn-xs btn-default text-danger mx-1 shadow">
                             <i class="fa fa-lg fa-fw fa-trash"></i>
@@ -40,7 +45,7 @@ class PasienController extends Controller
                 $btnDelete = '';
             }
             $data[] = array(
-                $v->id, $v->no_registrasi_pasien,$v->nama,$v->tempat_lahir,$v->tanggal_lahir,$v->jenis_kelamin,$v->no_hp,'<nobr>'.$btnEdit.$btnDelete.'</nobr>'
+                $v->id, $v->no_registrasi_pasien,$v->nama,$v->tempat_lahir,$v->tanggal_lahir,$v->jenis_kelamin,$v->no_hp,'<nobr>'.$btnEdit.$btnDelete.$btnPrint.'</nobr>'
             );
         }
 
@@ -168,5 +173,12 @@ class PasienController extends Controller
         }else{
             return redirect('/master/pasien')->with(['danger' => 'Data Gagal Dihapus']);
         }
+    }
+
+    public function print($id)
+    {
+        $data = MasterPasien::find($id);
+
+        return view('pages.pasien.kartu', compact('data'));
     }
 }
