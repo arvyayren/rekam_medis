@@ -38,3 +38,7 @@ Route::post('transaksi/resep_obat_detail' , [App\Http\Controllers\Transaksi\Rese
 Route::delete('transaksi/resep_obat_detail/{id}' , [App\Http\Controllers\Transaksi\ResepObatController::class, 'deleteResepObat']);
 
 Route::put('status/pembayaran/{id}', [App\Http\Controllers\Transaksi\PembayaranController::class, 'update']);
+
+Route::get('/laporan/kunjungan_pasien', [App\Http\Controllers\LaporanController::class, 'kunjungan']);
+Route::get('/laporan/obat', [App\Http\Controllers\LaporanController::class, 'obat']);
+Route::get('/laporan/pembayaran', [App\Http\Controllers\LaporanController::class, 'pembayaran']);

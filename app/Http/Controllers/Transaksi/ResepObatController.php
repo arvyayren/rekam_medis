@@ -81,7 +81,7 @@ class ResepObatController extends Controller
 
         $obat = MasterObat::get();
 
-        $list = TransaksiResepObatDetail::select('transaksi_resep_obat_detail.id', 'master_obat.nama', 'transaksi_resep_obat_detail.jumlah', 'transaksi_resep_obat_detail.keterangan')
+        $list = TransaksiResepObatDetail::select('transaksi_resep_obat_detail.id', 'master_obat.kode', 'master_obat.nama', 'transaksi_resep_obat_detail.jumlah', 'transaksi_resep_obat_detail.keterangan')
         ->join('master_obat', 'master_obat.id', 'transaksi_resep_obat_detail.id_obat')
         ->where('transaksi_resep_obat_detail.id_resep_header', $id)
         ->get();

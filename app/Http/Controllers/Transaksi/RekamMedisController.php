@@ -20,7 +20,7 @@ class RekamMedisController extends Controller
 {
     public function index()
     {
-        if(Auth::user()->email == 'admin@admin.com'){
+        if(Auth::user()->email == 'dokter@dokter.com'){
             $list = TransaksiRekamMedisHeader::select( 'transaksi_rekam_medis_header.id as id','master_pasien.no_registrasi_pasien','master_pasien.nama', 'master_pasien.jenis_kelamin', 'master_pasien.alamat')
             ->join('master_pasien', 'master_pasien.id', 'transaksi_rekam_medis_header.id_pasien')
             ->get();
