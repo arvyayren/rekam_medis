@@ -246,7 +246,7 @@ return [
             'text' => ' Dokter',
             'url'  => 'master/dokter',
             'icon' => 'fas fa-stethoscope',
-            'can'  => ['admin'],
+            'can'  => ['dokter', 'admin'],
         ],
         [
             'text' => ' Obat',
