@@ -21,7 +21,7 @@ class LaporanController extends Controller
     public function obat(request $request){
         $data = TransaksiResepObatDetail::select('master_obat.kode', 'master_obat.nama', DB::raw('SUM(transaksi_resep_obat_detail.jumlah) as jumlah'))
         ->join('master_obat', 'master_obat.id', 'transaksi_resep_obat_detail.id_obat')
-        ->whereMonth('transaksi_resep_obat_detail.created_at', $request->bulan)
+        ->whereBetween('transaksi_resep_obat_detail.created_at', [$request->tanggal_awal, $request->tanggal_akhir])
         ->groupBy([
             'master_obat.kode', 
             'master_obat.nama'
@@ -31,15 +31,18 @@ class LaporanController extends Controller
         $no = 1;
         $compactData = [
             'data' => $data,
-            'no' => $no
+            'no' => $no,
+            'tanggal_awal' => $request->tanggal_awal,
+            'tanggal_akhir' => $request->tanggal_akhir
         ];
+
         return view('laporan.obat', $compactData);
     }
 
     public function kunjungan(request $request){
         $data = TransaksiKunjungan::select('master_pasien.no_registrasi_pasien', 'master_pasien.nama', 'master_pasien.jenis_pasien', 'master_pasien.umur', DB::raw('COUNT(transaksi_kunjungan.id) as jumlah_kunjungan'))
         ->join('master_pasien', 'master_pasien.id', 'transaksi_kunjungan.id_pasien')
-        ->whereMonth('transaksi_kunjungan.created_at', $request->bulan)
+        ->whereBetween('transaksi_kunjungan.created_at', [$request->tanggal_awal, $request->tanggal_akhir])
         ->groupBy([
             'master_pasien.no_registrasi_pasien', 
             'master_pasien.nama',
@@ -51,7 +54,9 @@ class LaporanController extends Controller
         $no = 1;
         $compactData = [
             'data' => $data,
-            'no' => $no
+            'no' => $no,
+            'tanggal_awal' => $request->tanggal_awal,
+            'tanggal_akhir' => $request->tanggal_akhir
         ];
         return view('laporan.kunjungan', $compactData);
     }
@@ -60,13 +65,15 @@ class LaporanController extends Controller
         $data = Pembayaran::select('transaksi_pembayaran.created_at', 'transaksi_kunjungan.no_antrian', 'transaksi_kunjungan.nama_pasien', 'transaksi_pembayaran.total_pembayaran', 'transaksi_pembayaran.status')
         ->join('transaksi_resep_obat_header', 'transaksi_resep_obat_header.id', 'transaksi_pembayaran.id_resep_header')
         ->join('transaksi_kunjungan', 'transaksi_kunjungan.id', 'transaksi_resep_obat_header.id_kunjungan')
-        ->whereMonth('transaksi_pembayaran.created_at', $request->bulan)
+        ->whereBetween('transaksi_pembayaran.created_at', [$request->tanggal_awal, $request->tanggal_akhir])
         ->get();
 
         $no = 1;
         $compactData = [
             'data' => $data,
-            'no' => $no
+            'no' => $no,
+            'tanggal_awal' => $request->tanggal_awal,
+            'tanggal_akhir' => $request->tanggal_akhir
         ];
         return view('laporan.pembayaran', $compactData);
     }

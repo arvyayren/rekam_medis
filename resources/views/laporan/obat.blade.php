@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Rekam Medis - Laporan Obat')
+@section('title', 'Rekam Medis - Laporan Obat '.$tanggal_awal.' s/d '.$tanggal_akhir)
 
 @section('content_header')
     <h1>Laporan Obat</h1>
@@ -13,22 +13,20 @@
         <form action="" method="get">
             <div class="row">
                 <div class="col-md-6">
-                    <select class="form-control" name="bulan" id="bulan">
-                        <option value="01">Januari</option>
-                        <option value="02">Februari</option>
-                        <option value="03">Maret</option>
-                        <option value="04">April</option>
-                        <option value="05">Mei</option>
-                        <option value="06">Juni</option>
-                        <option value="07">Juli</option>
-                        <option value="08">Agustus</option>
-                        <option value="09">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
-                    </select>
+                    <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" 
+                    @isset($data)
+                        value="{{ $tanggal_awal }}"
+                    @endisset
+                    >
                 </div>
                 <div class="col-md-6">
+                    <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control"
+                    @isset($data)
+                        value="{{ $tanggal_akhir }}"
+                    @endisset
+                    >
+                </div>
+                <div class="col-md-6 pt-3">
                     <button class="btn btn-primary" type="submit">
                         Cari
                     </button>

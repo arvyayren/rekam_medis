@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Rekam Medis - Laporan Pembayaran')
+@section('title', 'Rekam Medis - Laporan Pembayaran ' .$tanggal_awal.' s/d '.$tanggal_akhir)
 
 @section('content_header')
     <h1>Laporan Pembayaran</h1>
@@ -13,22 +13,20 @@
         <form action="" method="get">
             <div class="row">
                 <div class="col-md-6">
-                    <select class="form-control" name="bulan" id="bulan">
-                        <option value="01">Januari</option>
-                        <option value="02">Februari</option>
-                        <option value="03">Maret</option>
-                        <option value="04">April</option>
-                        <option value="05">Mei</option>
-                        <option value="06">Juni</option>
-                        <option value="07">Juli</option>
-                        <option value="08">Agustus</option>
-                        <option value="09">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
-                    </select>
+                    <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control" 
+                    @isset($data)
+                        value="{{ $tanggal_awal }}"
+                    @endisset
+                    >
                 </div>
                 <div class="col-md-6">
+                    <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control"
+                    @isset($data)
+                        value="{{ $tanggal_akhir }}"
+                    @endisset
+                    >
+                </div>
+                <div class="col-md-6 pt-3">
                     <button class="btn btn-primary" type="submit">
                         Cari
                     </button>
@@ -46,7 +44,6 @@
                 <th>No Kunjungan</th>
                 <th>Nama Pasien</th>
                 <th>Total Pembayaran</th>
-                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -56,9 +53,15 @@
                 <td>{{ $datas->no_antrian}}</td>
                 <td>{{ $datas->nama_pasien }}</td>
                 <td>{{ $datas->total_pembayaran }}</td>
-                <td>{{ $datas->status }}</td>
             </tr>
             @endforeach
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" style="text-align:right">Total:</th>
+                <th></th>
+            </tr>
+        </tfoot>
     </table>
     </div>
     @endif
@@ -88,8 +91,39 @@
         $('#example').DataTable( {
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+                { extend: 'copyHtml5', footer: true },
+                { extend: 'excelHtml5', footer: true },
+                { extend: 'csvHtml5', footer: true },
+                { extend: 'pdfHtml5', footer: true },
+                { extend: 'print', footer: true }
+            ],
+            footerCallback: function (row, data, start, end, display) {
+                var api = this.api();
+    
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                };
+    
+                // Total over all pages
+                total = api
+                    .column(3)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+    
+                // Total over this page
+                pageTotal = api
+                    .column(3, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+    
+                // Update footer
+                $(api.column(3).footer()).html('Rp' + pageTotal + ' ( Rp' + total + ' total)');
+            },
         } );
     } );
 </script>

@@ -32,7 +32,7 @@
                 <x-adminlte-input name="tempat_lahir" label="Tempat Lahir" placeholder="Tempat Lahir..."
                 fgroup-class="col-md-6" disable-feedback required/>
 
-                <x-adminlte-input-date name="tanggal_lahir" :config="$config" placeholder="Pilih Tanggal..."
+                <x-adminlte-input-date name="tanggal_lahir" id="tanggal_lahir" :config="$config" placeholder="Pilih Tanggal..."
                     label="Tanggal Lahir" label-class="text-primary" fgroup-class="col-md-6" required>
                     <x-slot name="prependSlot">
                         <x-adminlte-button theme="outline-primary" icon="fas fa-calendar-alt"
@@ -48,7 +48,7 @@
                         placeholder="Pilih Jenis Kelamin..."/>
                 </x-adminlte-select>
 
-                <x-adminlte-input name="umur" label="Umur" placeholder="Umur..."
+                <x-adminlte-input name="umur" id="umur" label="Umur" placeholder="Umur..."
                 fgroup-class="col-md-6" disable-feedback required/>
             </div>
             
@@ -120,4 +120,17 @@
 
 @section('js')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $('#tanggal_lahir').change(function()
+            {
+                var dob = new Date(document.getElementById('tanggal_lahir').value);
+                var today = new Date();
+                var age = Math.floor((today-dob)/(365.25*24*60*60*1000));
+                document.getElementById('umur').value = age;
+            });
+        });
+    </script>
+
 @stop

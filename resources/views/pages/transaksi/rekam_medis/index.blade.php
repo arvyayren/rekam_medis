@@ -40,7 +40,7 @@
         @php
         $heads = [
             'ID',
-            'Nomor Registrasi',
+            'No Rekam Medis',
             'Nama Pasien',
             'Jenis Kelamin',
             'Alamat',
